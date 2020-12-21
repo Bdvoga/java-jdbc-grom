@@ -1,6 +1,8 @@
 package lesson2.ex4;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Solution {
     private static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
@@ -17,7 +19,8 @@ public class Solution {
                 System.out.println("Class" + JDBC_DRIVER + " not found");
             }
 
-            increasePrice(statement);
+            //increasePrice(statement);
+            changeDescription(statement);
 
         } catch (SQLException e) {
             System.out.println("Something went wrong");
@@ -26,8 +29,26 @@ public class Solution {
     }
 
     private static void increasePrice(Statement statement) throws SQLException {
-        String sql = "UPDATE PRODUCT2 SET PRICE = PRICE + 100 "  + "WHERE PRICE < 970";
-        statement.executeUpdate(sql);
+        statement.executeUpdate("UPDATE PRODUCT2 SET PRICE = PRICE + 100 "  + "WHERE PRICE < 970");
 
+    }
+
+    private static void changeDescription(Statement statement) throws SQLException {
+        String newString = "";
+        try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT2")){
+            while (resultSet.next()) {
+                if (resultSet.getString(3).length() > 10) {
+                    String str = resultSet.getString(3);
+                    String[] strings = str.split("\\. ");
+                    strings[strings.length - 1] = "";
+                    for (String el : strings) {
+                        newString = newString + el;
+                    }
+                    String sql = "UPDATE PRODUCT2 SET DESCRIPTION = " + "'" + newString  + "'" +
+                            " WHERE ID = " + resultSet.getInt(1);
+                    statement.executeUpdate(sql);
+                }
+            }
+        }
     }
 }
