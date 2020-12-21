@@ -2,7 +2,7 @@ import java.sql.*;
 
 public class JDBCFirstStep {
     private static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
-    private static final String DB_URL = "gromcode-lessons.cbwvy0uzrtqa.us-east-2.rds.amazonaws.com";
+    private static final String DB_URL = "jdbc:oracle:thin:@gromcode-lessons.cbwvy0uzrtqa.us-east-2.rds.amazonaws.com:1521:ORCL";
     private static final String USER = "main";
     private static final String PASS = "As172394";
 
@@ -17,7 +17,7 @@ public class JDBCFirstStep {
             //5. work with result +
             //6. close all connection
 
-            try {
+            try { // Можно запускать один раз, джава запоминает драйвер
                 Class.forName(JDBC_DRIVER);
             } catch (ClassNotFoundException e) { // ошибка - если не добавили библиотеку ojdbc7
                 System.out.println("Class" + JDBC_DRIVER + " not found");
@@ -28,10 +28,14 @@ public class JDBCFirstStep {
 
             //statement = connection.createStatement(); //3. create query/statement
             //ResultSet resultSet = statement.executeQuery("SELECT * FROM Test"); //4. execute query
-            try (ResultSet resultSet = statement.executeQuery("SELECT * FROM Test")) {
+            try (ResultSet resultSet = statement.executeQuery("SELECT * FROM Customer WHERE CUSTOMER_ID > 3004")) {
                 while (resultSet.next()) { //5. work with result
-                    //TODO do something
-                    System.out.println("Object found");
+                    long customerId = resultSet.getLong(1);
+                    String companyName = resultSet.getString(2);
+                    String contactName = resultSet.getString(3);
+                    String contactTitle = resultSet.getString(4);
+                    Order order = new Order(customerId, companyName, contactName, contactTitle);
+                    System.out.println(order.toString());
                 }
             }
 
