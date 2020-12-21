@@ -38,12 +38,11 @@ public class Solution {
         try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT2")){
             while (resultSet.next()) {
                 if (resultSet.getString(3).length() > 10) {
-                    String str = resultSet.getString(3);
-                    String[] strings = str.split("\\. ");
-                    strings[strings.length - 1] = "";
-                    for (String el : strings) {
-                        newString = newString + el;
+                    String[] strings = resultSet.getString(3).split("\\. ");
+                    for (int i = 0; i < strings.length - 1; i++) {
+                        newString = newString + strings[i] + ". ";
                     }
+
                     String sql = "UPDATE PRODUCT2 SET DESCRIPTION = " + "'" + newString  + "'" +
                             " WHERE ID = " + resultSet.getInt(1);
                     statement.executeUpdate(sql);
