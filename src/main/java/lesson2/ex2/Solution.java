@@ -20,7 +20,9 @@ public class Solution {
                 System.out.println("Class" + JDBC_DRIVER + " not found");
             }
 
-            saveProduct(999, "toy", "for children", 60, statement);
+            //saveProduct(statement);
+            //deleteProduct(statement);
+            deleteProductsByPrice(statement);
 
         } catch (SQLException e) {
             System.out.println("Something went wrong");
@@ -28,8 +30,15 @@ public class Solution {
         }
     }
 
-    private static void saveProduct(long id, String name, String desc, int price, Statement statement) throws SQLException {
-        String sql = "INSERT INTO PRODUCT2 VALUES (" + id + "," + "'" + name + "'" + "," + "'" + desc + "'" + "," + price + ")";
-        statement.executeUpdate(sql);
+    private static void saveProduct(Statement statement) throws SQLException {
+        statement.executeUpdate("INSERT INTO PRODUCT2 VALUES (999, 'toy', 'for children', 60 )");
+    }
+
+    private static void deleteProduct(Statement statement) throws SQLException {
+        statement.executeUpdate("DELETE FROM PRODUCT2 WHERE NAME != 'toy' ");
+    }
+
+    private static void deleteProductsByPrice(Statement statement) throws SQLException {
+        statement.executeUpdate("DELETE FROM PRODUCT2 WHERE PRICE < 100");
     }
 }
