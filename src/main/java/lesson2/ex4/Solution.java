@@ -30,11 +30,12 @@ public class Solution {
 
     private static void increasePrice(Statement statement) throws SQLException {
         statement.executeUpdate("UPDATE PRODUCT2 SET PRICE = PRICE + 100 "  + "WHERE PRICE < 970");
-
     }
 
     private static void changeDescription(Statement statement) throws SQLException {
         String newString = "";
+        String sql = "";
+        ArrayList<String> arrayList = new ArrayList<>();
         try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT2")){
             while (resultSet.next()) {
                 if (resultSet.getString(3).length() > 10) {
@@ -43,10 +44,19 @@ public class Solution {
                         newString = newString + strings[i] + ". ";
                     }
 
-                    String sql = "UPDATE PRODUCT2 SET DESCRIPTION = " + "'" + newString  + "'" +
+                    sql = "UPDATE PRODUCT2 SET DESCRIPTION = " + "'" + newString  + "'" +
                             " WHERE ID = " + resultSet.getInt(1);
-                    statement.executeUpdate(sql);
+
+                    arrayList.add(sql);
+                    newString = "";
                 }
+            }
+        }
+
+        if (arrayList.size() != 0) {
+            for (String el : arrayList) {
+                System.out.println(el);
+                statement.executeUpdate(el);
             }
         }
     }
