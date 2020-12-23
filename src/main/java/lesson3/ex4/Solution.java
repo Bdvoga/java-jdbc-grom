@@ -4,6 +4,13 @@ import java.sql.*;
 import java.util.Date;
 
 public class Solution {
+    //Время выполнения testSavePerformance: 127498 - Statement
+    //Время выполнения testSavePerformance: 126433 - PreparedStatement
+    //Время выполнения testDeleteByIdPerformance: 127346
+    //Время выполнения testDeletePerformance: 179
+    //Время выполнения testSelectByIdPerformance: 125569
+    //Время выполнения testSelectPerformance: 12730
+
     private static final String DB_URL = "jdbc:oracle:thin:@gromcode-lessons.cbwvy0uzrtqa.us-east-2.rds.amazonaws.com:1521:ORCL";
     private static final String USER = "main";
     private static final String PASS = "As172394";
@@ -13,7 +20,7 @@ public class Solution {
         //testSavePerformance();
         //testDeleteByIdPerformance();
         //testDeletePerformance();
-        testSelectByIdPerformance();
+        //testSelectByIdPerformance();
         testSelectPerformance();
     }
 
@@ -144,5 +151,7 @@ public class Solution {
     private static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(DB_URL, USER, PASS);
     }
+
+    //Время выполнения testSelectPerformance: 12730
 
 }
