@@ -1,4 +1,4 @@
-package lesson4;
+package lesson4.ex1;
 
 import lesson3.ex1.Product;
 import lesson3.ex1.ProductDAO;
