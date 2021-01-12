@@ -9,18 +9,27 @@ public class Solution {
     private static final String USER = "main";
     private static final String PASS = "As172394";
 
-    public static void main(String[] args) {
-        try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS); Statement statement = connection.createStatement()) {
+    public static void main(String[] args) throws SQLException {
 
+            getAllProducts();
+            getProductsByPrice();
+            getProductsByDescription();
+    }
+
+    private static void getAllProducts() throws SQLException {
+        try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS); Statement statement = connection.createStatement()) {
             try {
                 Class.forName(JDBC_DRIVER);
             } catch (ClassNotFoundException e) { // ошибка - если не добавили библиотеку ojdbc7
                 System.out.println("Class" + JDBC_DRIVER + " not found");
             }
 
-            //getAllProducts(statement);
-            //getProductsByPrice(statement);
-            getProductsByDescription(statement);
+            try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT2")){
+                while (resultSet.next()) {
+                    System.out.println(resultSet.getInt(1) + " " + resultSet.getString(2) +
+                            " " +resultSet.getString(3) + " " + resultSet.getInt(4));
+                }
+            }
 
         } catch (SQLException e) {
             System.out.println("Something went wrong");
@@ -28,32 +37,46 @@ public class Solution {
         }
     }
 
-    private static void getAllProducts(Statement statement) throws SQLException {
-        try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT2")){
-            while (resultSet.next()) {
-                System.out.println(resultSet.getInt(1) + " " + resultSet.getString(2) +
-                        " " +resultSet.getString(3) + " " + resultSet.getInt(4));
+    private static void getProductsByPrice() throws SQLException {
+        try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS); Statement statement = connection.createStatement()) {
+            try {
+                Class.forName(JDBC_DRIVER);
+            } catch (ClassNotFoundException e) { // ошибка - если не добавили библиотеку ojdbc7
+                System.out.println("Class" + JDBC_DRIVER + " not found");
             }
-        }
-    }
 
-    private static void getProductsByPrice(Statement statement) throws SQLException {
-        try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT2 WHERE PRICE <= 100")){
-            while (resultSet.next()) {
-                System.out.println(resultSet.getInt(1) + " " + resultSet.getString(2) +
-                        " " +resultSet.getString(3) + " " + resultSet.getInt(4));
-            }
-        }
-    }
-
-    private static void getProductsByDescription(Statement statement) throws SQLException {
-        try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT2")){
-            while (resultSet.next()) {
-                if (resultSet.getString(3).length() > 50) {
+            try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT2 WHERE PRICE <= 100")){
+                while (resultSet.next()) {
                     System.out.println(resultSet.getInt(1) + " " + resultSet.getString(2) +
                             " " +resultSet.getString(3) + " " + resultSet.getInt(4));
                 }
             }
+
+        } catch (SQLException e) {
+            System.out.println("Something went wrong");
+            e.printStackTrace();
+        }
+    }
+
+    private static void getProductsByDescription() throws SQLException {
+        try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS); Statement statement = connection.createStatement()) {
+            try {
+                Class.forName(JDBC_DRIVER);
+            } catch (ClassNotFoundException e) { // ошибка - если не добавили библиотеку ojdbc7
+                System.out.println("Class" + JDBC_DRIVER + " not found");
+            }
+
+            try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT2")){
+                while (resultSet.next()) {
+                    if (resultSet.getString(3) != null && resultSet.getString(3).length() > 50) {
+                        System.out.println(resultSet.getInt(1) + " " + resultSet.getString(2) +
+                                " " +resultSet.getString(3) + " " + resultSet.getInt(4));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Something went wrong");
+            e.printStackTrace();
         }
     }
 }
