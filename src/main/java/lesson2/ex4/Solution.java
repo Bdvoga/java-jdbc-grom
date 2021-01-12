@@ -2,7 +2,7 @@ package lesson2.ex4;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 public class Solution {
     private static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
@@ -10,17 +10,21 @@ public class Solution {
     private static final String USER = "main";
     private static final String PASS = "As172394";
 
-    public static void main(String[] args) {
-        try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS); Statement statement = connection.createStatement()) {
+    public static void main(String[] args) throws SQLException {
 
+//            increasePrice();
+            changeDescription();
+    }
+
+    private static void increasePrice() throws SQLException {
+        try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS); Statement statement = connection.createStatement()) {
             try {
                 Class.forName(JDBC_DRIVER);
             } catch (ClassNotFoundException e) {
                 System.out.println("Class" + JDBC_DRIVER + " not found");
             }
 
-            //increasePrice(statement);
-            changeDescription(statement);
+            statement.executeUpdate("UPDATE PRODUCT2 SET PRICE = PRICE + 100 "  + "WHERE PRICE < 970");
 
         } catch (SQLException e) {
             System.out.println("Something went wrong");
@@ -28,36 +32,51 @@ public class Solution {
         }
     }
 
-    private static void increasePrice(Statement statement) throws SQLException {
-        statement.executeUpdate("UPDATE PRODUCT2 SET PRICE = PRICE + 100 "  + "WHERE PRICE < 970");
-    }
+    private static void changeDescription() throws SQLException {
+        try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS); Statement statement = connection.createStatement()) {
+            try {
+                Class.forName(JDBC_DRIVER);
+            } catch (ClassNotFoundException e) {
+                System.out.println("Class" + JDBC_DRIVER + " not found");
+            }
 
-    private static void changeDescription(Statement statement) throws SQLException {
-        String newString = "";
-        String sql = "";
-        ArrayList<String> arrayList = new ArrayList<>();
-        try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT2")){
-            while (resultSet.next()) {
-                if (resultSet.getString(3).length() > 10) {
-                    String[] strings = resultSet.getString(3).split("\\. ");
+            String newString = "";
+            List<String[]> listDescription = new ArrayList<>();
+            List<Integer> listId = new ArrayList<>();
+            List<String> listSql = new ArrayList<>();
+
+            try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT2")){
+                while (resultSet.next()) {
+                    if (resultSet.getString(3) != null && resultSet.getString(3).length() > 100) {
+                        String[] strings = resultSet.getString(3).split("\\. ");
+                        listId.add(resultSet.getInt(1));
+                        listDescription.add(strings);
+                    }
+                }
+
+                int count = 0;
+                for (String[] strings: listDescription) {
                     for (int i = 0; i < strings.length - 1; i++) {
                         newString = newString + strings[i] + ". ";
                     }
 
-                    sql = "UPDATE PRODUCT2 SET DESCRIPTION = " + "'" + newString  + "'" +
-                            " WHERE ID = " + resultSet.getInt(1);
-
-                    arrayList.add(sql);
+                    listSql.add("UPDATE PRODUCT2 SET DESCRIPTION = " + "'" + newString  + "'" +
+                            " WHERE ID = " + listId.get(count));
                     newString = "";
+                    count++;
                 }
             }
+
+            if (listSql.size() != 0) {
+                for (String el : listSql) {
+                    statement.executeUpdate(el);
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Something went wrong");
+            e.printStackTrace();
         }
 
-        if (arrayList.size() != 0) {
-            for (String el : arrayList) {
-                System.out.println(el);
-                statement.executeUpdate(el);
-            }
-        }
     }
 }
