@@ -21,11 +21,7 @@ public class Solution {
 
     private static void saveProduct() throws SQLException {
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS); Statement statement = connection.createStatement()) {
-            try {
-                Class.forName(JDBC_DRIVER);
-            } catch (ClassNotFoundException e) { // ошибка - если не добавили библиотеку ojdbc7
-                System.out.println("Class" + JDBC_DRIVER + " not found");
-            }
+            connectToDb();
 
             statement.executeUpdate("INSERT INTO PRODUCT2 VALUES (999, 'toy', 'for children', 60 )");
 
@@ -37,11 +33,7 @@ public class Solution {
 
     private static void deleteProduct(String sql) throws SQLException {
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS); Statement statement = connection.createStatement()) {
-            try {
-                Class.forName(JDBC_DRIVER);
-            } catch (ClassNotFoundException e) { // ошибка - если не добавили библиотеку ojdbc7
-                System.out.println("Class" + JDBC_DRIVER + " not found");
-            }
+            connectToDb();
 
             statement.executeUpdate("DELETE FROM PRODUCT2 WHERE NAME != 'toy' ");
 
@@ -53,17 +45,21 @@ public class Solution {
 
     private static void deleteProductsByPrice() throws SQLException {
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS); Statement statement = connection.createStatement()) {
-            try {
-                Class.forName(JDBC_DRIVER);
-            } catch (ClassNotFoundException e) { // ошибка - если не добавили библиотеку ojdbc7
-                System.out.println("Class" + JDBC_DRIVER + " not found");
-            }
+            connectToDb();
 
             statement.executeUpdate("DELETE FROM PRODUCT2 WHERE PRICE < 100");
 
         } catch (SQLException e) {
             System.out.println("Something went wrong");
             e.printStackTrace();
+        }
+    }
+
+    public static void connectToDb() {
+        try {
+            Class.forName(JDBC_DRIVER);
+        } catch (ClassNotFoundException e) { // ошибка - если не добавили библиотеку ojdbc7
+            System.out.println("Class" + JDBC_DRIVER + " not found");
         }
     }
 
