@@ -1,3 +1,5 @@
+package lesson1_2;
+
 public class Order {
     private long customerId;
     private String companyName;
@@ -37,7 +39,7 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order{" +
+        return "lesson1.Order{" +
                 "customerId=" + customerId +
                 ", companyName='" + companyName + '\'' +
                 ", contactName='" + contactName + '\'' +

@@ -1,3 +1,5 @@
+package lesson1_2;
+
 import java.sql.*;
 
 public class JDBCFirstStep {
@@ -17,6 +19,7 @@ public class JDBCFirstStep {
             //5. work with result +
             //6. close all connection
 
+            //1. Регистрируем драйвер
             try { // Можно запускать один раз, джава запоминает драйвер
                 Class.forName(JDBC_DRIVER);
             } catch (ClassNotFoundException e) { // ошибка - если не добавили библиотеку ojdbc7
@@ -28,7 +31,7 @@ public class JDBCFirstStep {
 
             //statement = connection.createStatement(); //3. create query/statement
             //ResultSet resultSet = statement.executeQuery("SELECT * FROM Test"); //4. execute query
-            try (ResultSet resultSet = statement.executeQuery("SELECT * FROM Customer WHERE CUSTOMER_ID > 3004")) {
+            try (ResultSet resultSet = statement.executeQuery("SELECT * FROM Customer WHERE CUSTOMER_ID > 3008")) {
                 while (resultSet.next()) { //5. work with result
                     long customerId = resultSet.getLong(1);
                     String companyName = resultSet.getString(2);
@@ -45,7 +48,7 @@ public class JDBCFirstStep {
 //            connection.close();
 
         } catch (SQLException e) {
-            System.out.println("Something went wrong");
+            System.err.println("Something went wrong");
             e.printStackTrace();
         }
     }
