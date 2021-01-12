@@ -18,11 +18,7 @@ public class Solution {
 
     private static void increasePrice() throws SQLException {
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS); Statement statement = connection.createStatement()) {
-            try {
-                Class.forName(JDBC_DRIVER);
-            } catch (ClassNotFoundException e) {
-                System.out.println("Class" + JDBC_DRIVER + " not found");
-            }
+            connectToDb();
 
             statement.executeUpdate("UPDATE PRODUCT2 SET PRICE = PRICE + 100 "  + "WHERE PRICE < 970");
 
@@ -34,11 +30,7 @@ public class Solution {
 
     private static void changeDescription() throws SQLException {
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS); Statement statement = connection.createStatement()) {
-            try {
-                Class.forName(JDBC_DRIVER);
-            } catch (ClassNotFoundException e) {
-                System.out.println("Class" + JDBC_DRIVER + " not found");
-            }
+            connectToDb();
 
             String newString = "";
             List<String[]> listDescription = new ArrayList<>();
@@ -77,6 +69,13 @@ public class Solution {
             System.out.println("Something went wrong");
             e.printStackTrace();
         }
+    }
 
+    public static void connectToDb() {
+        try {
+            Class.forName(JDBC_DRIVER);
+        } catch (ClassNotFoundException e) {
+            System.out.println("Class" + JDBC_DRIVER + " not found");
+        }
     }
 }
