@@ -18,11 +18,7 @@ public class Solution {
 
     private static void getAllProducts() throws SQLException {
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS); Statement statement = connection.createStatement()) {
-            try {
-                Class.forName(JDBC_DRIVER);
-            } catch (ClassNotFoundException e) { // ошибка - если не добавили библиотеку ojdbc7
-                System.out.println("Class" + JDBC_DRIVER + " not found");
-            }
+            connectToDb();
 
             try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT2")){
                 while (resultSet.next()) {
@@ -39,11 +35,7 @@ public class Solution {
 
     private static void getProductsByPrice() throws SQLException {
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS); Statement statement = connection.createStatement()) {
-            try {
-                Class.forName(JDBC_DRIVER);
-            } catch (ClassNotFoundException e) { // ошибка - если не добавили библиотеку ojdbc7
-                System.out.println("Class" + JDBC_DRIVER + " not found");
-            }
+            connectToDb();
 
             try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT2 WHERE PRICE <= 100")){
                 while (resultSet.next()) {
@@ -60,11 +52,7 @@ public class Solution {
 
     private static void getProductsByDescription() throws SQLException {
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS); Statement statement = connection.createStatement()) {
-            try {
-                Class.forName(JDBC_DRIVER);
-            } catch (ClassNotFoundException e) { // ошибка - если не добавили библиотеку ojdbc7
-                System.out.println("Class" + JDBC_DRIVER + " not found");
-            }
+            connectToDb();
 
             try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT2")){
                 while (resultSet.next()) {
@@ -77,6 +65,14 @@ public class Solution {
         } catch (SQLException e) {
             System.out.println("Something went wrong");
             e.printStackTrace();
+        }
+    }
+
+    public static void connectToDb() {
+        try {
+            Class.forName(JDBC_DRIVER);
+        } catch (ClassNotFoundException e) { // ошибка - если не добавили библиотеку ojdbc7
+            System.out.println("Class" + JDBC_DRIVER + " not found");
         }
     }
 }
