@@ -36,12 +36,10 @@ public class Solution {
             String newString = "";
             List<String[]> listDescription = new ArrayList<>();
             List<Integer> listId = new ArrayList<>();
-            List<String> listSql = new ArrayList<>();
 
             try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT2")){
                 while (resultSet.next()) {
                     if (resultSet.getString(3) != null && resultSet.getString(3).length() > lengthDescription) {
-                        //String[] strings = resultSet.getString(3).split("\\. ");
                         listId.add(resultSet.getInt(1));
                         listDescription.add(resultSet.getString(3).split("\\. "));
                     }
@@ -54,14 +52,9 @@ public class Solution {
                     newString = newString + strings[i] + ". ";
                 }
 
-                listSql.add("UPDATE PRODUCT2 SET DESCRIPTION = " + "'" + newString  + "'" +
-                        " WHERE ID = " + listId.get(count));
+                statement.executeUpdate("UPDATE PRODUCT2 SET DESCRIPTION = " + "'" + newString  + "'" + " WHERE ID = " + listId.get(count));
                 newString = "";
                 count++;
-            }
-
-            for (String el : listSql) {
-                statement.executeUpdate(el);
             }
 
         } catch (SQLException e) {
