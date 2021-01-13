@@ -39,23 +39,23 @@ public class StorageDAO {
         //2. Пустое ли хранилище
         //3. удаляем
 
+        int idBd = 1;
+
         ifHaveStorage(findById(id));
 
         try (Connection connection = getConnection()) {
             Statement statement = connection.createStatement();
 
             //Есть ли файлы в хранилище id
-            String sql = "SELECT COUNT(*) FROM FILES WHERE STORAGE_ID = " + id;
-            ResultSet resultSet = statement.executeQuery(sql);
+            ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) FROM FILES WHERE STORAGE_ID = " + id);
 
             resultSet.next();
-            int count = resultSet.getInt(1);
+            int count = resultSet.getInt(idBd);
             if (count > 0) {
                 throw new Exception("В хранилище с id=" + id + " храняться файлы. Удаление невозможно!");
             }
 
-            String sql2 = "DELETE FROM STORAGES WHERE ID = " + id;
-            statement.executeUpdate(sql2);
+            statement.executeUpdate("DELETE FROM STORAGES WHERE ID = " + id);
 
         } catch (SQLException e) {
             System.out.println("Something went wrong");
@@ -69,6 +69,8 @@ public class StorageDAO {
         //хватит ли места для существующих файлов после апдейта
         //апдейт
 
+        int maxSize = 4;
+
         verification(storage);
 
         if (findById(storage.getId()) == null) {
@@ -79,32 +81,33 @@ public class StorageDAO {
             Statement statement = connection.createStatement();
 
             //размер старого хранилища
-            String sqlQuery = "SELECT * FROM STORAGEs WHERE ID = " + storage.getId();
-            ResultSet rs = statement.executeQuery(sqlQuery);
+            ResultSet rs = statement.executeQuery("SELECT * FROM STORAGES WHERE ID = " + storage.getId());
             rs.next();
-            long oldStorageSize = rs.getLong(4);
-            long oldStorageFreeSpace = freeSpaceInStorage(storage.getId());
 
-            if (storage.storageMaxSize < (oldStorageSize - oldStorageFreeSpace)) {
+            if (storage.storageMaxSize < (rs.getLong(maxSize) - freeSpaceInStorage(storage.getId()))) {
                 throw new Exception("Новый размер хранилища id=" + storage.getId() + " недостаточен для хранения существующих файлов");
             }
 
-            String sqlUpdate = "UPDATE STORAGES SET FORMAT_SUPPORTED = " + "'" + transferString(storage) + "'" +
+            statement.executeUpdate("UPDATE STORAGES SET FORMAT_SUPPORTED = " + "'" + transferString(storage) + "'" +
                     ", COUNTRY = " + "'" + storage.getStorageCountry() + "'" + ", MAX_SIZE = " +
-                    storage.getStorageMaxSize() + "WHERE ID = " + storage.getId();
-
-            statement.executeUpdate(sqlUpdate);
+                    storage.getStorageMaxSize() + "WHERE ID = " + storage.getId());
         }
     }
 
     public Storage findById(long id) throws SQLException {
+        int idDb = 1;
+        int formatSupported = 2;
+        int country = 3;
+        int maxSize = 4;
+        String split = ", ";
+
         try (Connection connection = getConnection()) {
             ResultSet rs = connection.createStatement().executeQuery("SELECT * FROM STORAGES");
             while (rs.next()) {
-                if (id == rs.getLong(1)) {
-                    String[] strings = rs.getString(2).split(", ");
+                if (id == rs.getLong(idDb)) {
+                    String[] strings = rs.getString(formatSupported).split(split);
 
-                    return new Storage(id, strings, rs.getString(3), rs.getLong(4)); // id найден в базе
+                    return new Storage(id, strings, rs.getString(country), rs.getLong(maxSize)); // id найден в базе
                 }
             }
         } catch (SQLException e) {
@@ -116,6 +119,7 @@ public class StorageDAO {
 
     //Сколько свободного места в хранилище
     public long freeSpaceInStorage(long id) throws Exception {
+        int fileSize = 4;
 
         if (findById(id) == null) {
             throw new Exception("Хранилище с id=" + id + " не существует");
@@ -125,20 +129,18 @@ public class StorageDAO {
             Statement statement = connection.createStatement();
 
             //суммарный размер файлов, хранящихся в хранилище
-            String sql = "SELECT * FROM FILES WHERE STORAGE_ID = " + id;
-            ResultSet rs = statement.executeQuery(sql);
+            ResultSet rs = statement.executeQuery("SELECT * FROM FILES WHERE STORAGE_ID = " + id);
 
             long sizeFiles = 0;
             while (rs.next()) {
-                sizeFiles += rs.getLong(4);
+                sizeFiles += rs.getLong(fileSize);
             }
 
             //Емкость хранилища
-            String sql2 = "SELECT * FROM STORAGES WHERE ID = " + id;
-            ResultSet rs2 = statement.executeQuery(sql2);
+            ResultSet rs2 = statement.executeQuery("SELECT * FROM STORAGES WHERE ID = " + id);
 
             rs2.next();
-            long sizeStorage = rs2.getLong(4);
+            long sizeStorage = rs2.getLong(fileSize);
 
             return sizeStorage - sizeFiles;
 
@@ -158,11 +160,13 @@ public class StorageDAO {
 
     //преобразуем формат String[] к String формата БД
     private String transferString(Storage storage) {
+        String separator = ", ";
+
         StringBuilder strBild = new StringBuilder();
         int count = storage.getFormatSupported().length - 1;
         for (String el : storage.getFormatSupported()) {
             if (count > 0) {
-                strBild.append(el).append(", ");
+                strBild.append(el).append(separator);
             } else {
                 strBild.append(el);
             }

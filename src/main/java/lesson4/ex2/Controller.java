@@ -50,8 +50,6 @@ public class Controller {
         //Удаляем из хранилища, но в БД оставляем
         //есть ли файл в хранилище
 
-        int idDb = 1;
-
         storageDAO.ifHaveStorage(storage);
 
         if (fileDAO.findById(file.getId()) == null) {
@@ -62,7 +60,7 @@ public class Controller {
 
         try (Connection connection = storageDAO.getConnection()) {
             PreparedStatement ps = connection.prepareStatement("UPDATE FILES SET STORAGE_ID = null WHERE ID = ?");
-            ps.setLong(idDb, file.getId());
+            ps.setLong(1, file.getId());
             ps.executeUpdate();
 
         } catch (SQLException e) {
@@ -107,6 +105,12 @@ public class Controller {
         //поддерживает ли хранилище storageTo формат файлов из storageFrom +
         //сохранить файлы
 
+        int idBd = 1;
+        int fileNameBd = 2;
+        int fileFormatBd = 3;
+        int fileSizeBd = 4;
+        int storageIdBd = 5;
+
         storageDAO.ifHaveStorage(storageFrom);
         storageDAO.ifHaveStorage(storageTo);
 
@@ -116,35 +120,22 @@ public class Controller {
 
         try (Connection connection = storageDAO.getConnection()) {
             Statement st = connection.createStatement();
-            List<File> fileList = new ArrayList<>();
-            String sqlQuery = "SELECT * FROM FILES WHERE STORAGE_ID = " + storageFrom.getId();
-            ResultSet rs = st.executeQuery(sqlQuery);
+            List<File> fileListForTransfer = new ArrayList<>();
+            ResultSet rs = st.executeQuery("SELECT * FROM FILES WHERE STORAGE_ID = " + storageFrom.getId());
 
             while (rs.next()) {
-                File file = new File(rs.getLong(1), rs.getString(2), rs.getString(3),
-                        rs.getLong(4), storageDAO.findById(rs.getLong(5)));
+                File file = new File(rs.getLong(idBd), rs.getString(fileNameBd), rs.getString(fileFormatBd),
+                        rs.getLong(fileSizeBd), storageDAO.findById(rs.getLong(storageIdBd)));
 
                 storageDAO.ifHaveFormat(storageTo, file);
-
-                fileList.add(file);
+                fileListForTransfer.add(file);
             }
 
-            connection.setAutoCommit(false);
-
-            PreparedStatement ps = connection.prepareStatement("UPDATE FILES SET STORAGE_ID = ? WHERE ID = ?");
-            for (File file : fileList) {
-                ps.setLong(1, storageTo.getId());
-                ps.setLong(2, file.getId());
-
-                ps.executeUpdate();
-            }
-
-            connection.commit();
+            putAllList(storageTo, fileListForTransfer, connection);
 
         } catch (SQLException e) {
             System.out.println("Something went wrong");
         }
-
     }
 
     private void putAllList(Storage storage, List<File> files, Connection connection) throws SQLException {
@@ -158,7 +149,7 @@ public class Controller {
             connection.commit();
         } catch (SQLException e) {
             connection.rollback();
-            throw e; //пробрасываем ошибку в save()
+            throw e;
         }
     }
 

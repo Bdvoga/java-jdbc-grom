@@ -43,8 +43,7 @@ public class FileDAO {
         try (Connection connection = storageDAO.getConnection()) {
             Statement statement = connection.createStatement();
 
-            String sql2 = "DELETE FROM FILES WHERE ID = " + id;
-            statement.executeUpdate(sql2);
+            statement.executeUpdate("DELETE FROM FILES WHERE ID = " + id);
 
         } catch (SQLException e) {
             System.out.println("Something went wrong");
@@ -58,17 +57,17 @@ public class FileDAO {
         //хватит ли места в хранилище после изменения
         //апдейт
 
+        int fileSizeDb = 4;
+
         ifHaveAllDataForFile(file);
 
         try (Connection connection = storageDAO.getConnection()) {
             Statement statement = connection.createStatement();
 
             //размер старого файла
-            String sqlQuery = "SELECT * FROM FILES WHERE ID = " + file.getId();
-            ResultSet rs = statement.executeQuery(sqlQuery);
+            ResultSet rs = statement.executeQuery("SELECT * FROM FILES WHERE ID = " + file.getId());
             rs.next();
-            long idOldStorage = rs.getLong(5);
-            long sizeOldFile = rs.getLong(4);
+            long sizeOldFile = rs.getLong(fileSizeDb);
 
             ifFileNotInStorage(file.getStorage(), file);
 
@@ -76,11 +75,9 @@ public class FileDAO {
                 throw new Exception("Для обновленного файла недостаточно места в хранилище id=" + file.getStorage().getId());
             }
 
-            String sqlUpdate = "UPDATE FILES SET FILE_NAME = " + "'" + file.getName() + "'" +
+            statement.executeUpdate("UPDATE FILES SET FILE_NAME = " + "'" + file.getName() + "'" +
                     ", FILE_FORMAT = " + "'" + file.getFormat() + "'" + ", FILE_SIZE = " +
-                    file.getSize() + " WHERE ID = " + file.getId();
-
-            statement.executeUpdate(sqlUpdate);
+                    file.getSize() + " WHERE ID = " + file.getId());
 
         } catch (SQLException e) {
             System.out.println("Something went wrong");
@@ -89,11 +86,17 @@ public class FileDAO {
     }
 
     public File findById(long id) {
+        int idBd = 1;
+        int fileNameBd = 2;
+        int fileFormatBd = 3;
+        int fileSizeBd = 4;
+        int storageIdBd = 5;
+
         try (Connection connection = storageDAO.getConnection()) {
             ResultSet rs = connection.createStatement().executeQuery("SELECT * FROM FILES");
             while (rs.next()) {
-                if (id == rs.getLong(1)) {
-                    return new File(id, rs.getString(2), rs.getString(3), rs.getLong(4), storageDAO.findById(rs.getLong(5))); // id найден в базе
+                if (id == rs.getLong(idBd)) {
+                    return new File(id, rs.getString(fileNameBd), rs.getString(fileFormatBd), rs.getLong(fileSizeBd), storageDAO.findById(rs.getLong(storageIdBd))); // id найден в базе
                 }
             }
         } catch (SQLException e) {
