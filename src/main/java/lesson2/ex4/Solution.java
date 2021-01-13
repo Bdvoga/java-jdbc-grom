@@ -33,7 +33,7 @@ public class Solution {
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS); Statement statement = connection.createStatement()) {
             connectToDb();
 
-            String newString = "";
+            String shortDescription = "";
             List<String[]> listDescription = new ArrayList<>();
             List<Integer> listId = new ArrayList<>();
 
@@ -48,12 +48,13 @@ public class Solution {
 
             int count = 0;
             for (String[] strings: listDescription) {
+
                 for (int i = 0; i < strings.length - 1; i++) {
-                    newString = newString + strings[i] + ". ";
+                    shortDescription = shortDescription + strings[i] + ". ";
                 }
 
-                statement.executeUpdate("UPDATE PRODUCT2 SET DESCRIPTION = " + "'" + newString  + "'" + " WHERE ID = " + listId.get(count));
-                newString = "";
+                statement.executeUpdate("UPDATE PRODUCT2 SET DESCRIPTION = " + "'" + shortDescription  + "'" + " WHERE ID = " + listId.get(count));
+                shortDescription = "";
                 count++;
             }
 
