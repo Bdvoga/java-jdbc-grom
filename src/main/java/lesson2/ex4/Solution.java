@@ -29,6 +29,7 @@ public class Solution {
     }
 
     private static void changeDescription() throws SQLException {
+        int lengthDescription = 100;
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS); Statement statement = connection.createStatement()) {
             connectToDb();
 
@@ -39,30 +40,28 @@ public class Solution {
 
             try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT2")){
                 while (resultSet.next()) {
-                    if (resultSet.getString(3) != null && resultSet.getString(3).length() > 100) {
-                        String[] strings = resultSet.getString(3).split("\\. ");
+                    if (resultSet.getString(3) != null && resultSet.getString(3).length() > lengthDescription) {
+                        //String[] strings = resultSet.getString(3).split("\\. ");
                         listId.add(resultSet.getInt(1));
-                        listDescription.add(strings);
+                        listDescription.add(resultSet.getString(3).split("\\. "));
                     }
-                }
-
-                int count = 0;
-                for (String[] strings: listDescription) {
-                    for (int i = 0; i < strings.length - 1; i++) {
-                        newString = newString + strings[i] + ". ";
-                    }
-
-                    listSql.add("UPDATE PRODUCT2 SET DESCRIPTION = " + "'" + newString  + "'" +
-                            " WHERE ID = " + listId.get(count));
-                    newString = "";
-                    count++;
                 }
             }
 
-            if (listSql.size() != 0) {
-                for (String el : listSql) {
-                    statement.executeUpdate(el);
+            int count = 0;
+            for (String[] strings: listDescription) {
+                for (int i = 0; i < strings.length - 1; i++) {
+                    newString = newString + strings[i] + ". ";
                 }
+
+                listSql.add("UPDATE PRODUCT2 SET DESCRIPTION = " + "'" + newString  + "'" +
+                        " WHERE ID = " + listId.get(count));
+                newString = "";
+                count++;
+            }
+
+            for (String el : listSql) {
+                statement.executeUpdate(el);
             }
 
         } catch (SQLException e) {
