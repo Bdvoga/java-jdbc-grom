@@ -25,42 +25,47 @@ public class Solution {
     }
 
     private static void testSavePerformance() {
-            try (Connection connection = getConnection()){
-                Date start = new Date();
-                //Statement statement = connection.createStatement();
-                PreparedStatement ps = connection.prepareStatement("INSERT INTO TEST_SPEEED VALUES(?, ?, ?)");
+        int id = 1;
+        int someString = 2;
+        int someNumber = 3;
+        int number = 100;
+        int quantityLines = 1001;
+        String string = "acd";
 
-                for (int i = 1; i < 1001; i++) {
-                    //String sql = "INSERT INTO TEST_SPEEED VALUES(" + i + "," + " 'asd', 30)";
-                    //statement.executeUpdate(sql);
-                    ps.setInt(1, i);
-                    ps.setString(2, "acd");
-                    ps.setInt(3, 100);
-                    ps.executeUpdate();
-                }
+        try (Connection connection = getConnection()){
+            Date start = new Date();
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO TEST_SPEEED VALUES(?, ?, ?)");
 
-                Date finish = new Date();
-                long time = finish.getTime() - start.getTime();
-
-                System.out.println("Время выполнения testSavePerformance: " + time);
-
-            } catch (SQLException e) {
-                System.out.println("Something went wrong");
-                e.printStackTrace();
+            for (int i = 1; i < quantityLines; i++) {
+                ps.setInt(id, i);
+                ps.setString(someString, string);
+                ps.setInt(someNumber, number);
+                ps.executeUpdate();
             }
+
+            Date finish = new Date();
+            long time = finish.getTime() - start.getTime();
+
+            System.out.println("Время выполнения testSavePerformance: " + time);
+
+        } catch (SQLException e) {
+            System.out.println("Something went wrong");
+            e.printStackTrace();
+        }
     }
 
     //Время выполнения testSavePerformance: 127498 - Statement
     //Время выполнения testSavePerformance: 126433 - PreparedStatement
 
     private static void testDeleteByIdPerformance() {
+        int quantityLines = 1001;
+
         try (Connection connection = getConnection()){
             Date start = new Date();
             Statement statement = connection.createStatement();
 
-            for (int i = 1; i < 1001; i++) {
-                String sql = "DELETE FROM TEST_SPEEED WHERE ID = " + i;
-                statement.executeUpdate(sql);
+            for (int i = 1; i < quantityLines; i++) {
+                statement.executeUpdate("DELETE FROM TEST_SPEEED WHERE ID = " + i);
             }
 
             Date finish = new Date();
@@ -97,17 +102,21 @@ public class Solution {
     //Время выполнения testDeletePerformance: 179
 
     private static void testSelectByIdPerformance() {
+        int id = 1;
+        int someString = 2;
+        int someNumber = 3;
+        int quantityLines = 1001;
+
         try (Connection connection = getConnection()){
             Date start = new Date();
             Statement statement = connection.createStatement();
 
-            for (int i = 1; i < 1001; i++) {
-                String sql = "SELECT * FROM TEST_SPEEED WHERE ID = " + i;
-                ResultSet resultSet = statement.executeQuery(sql);
+            for (int i = 1; i < quantityLines; i++) {
+                ResultSet resultSet = statement.executeQuery("SELECT * FROM TEST_SPEEED WHERE ID = " + i);
                 while (resultSet.next()) {
-                    resultSet.getInt(1);
-                    resultSet.getString(2);
-                    resultSet.getInt(3);
+                    resultSet.getInt(id);
+                    resultSet.getString(someString);
+                    resultSet.getInt(someNumber);
                 }
             }
 
@@ -125,15 +134,19 @@ public class Solution {
     //Время выполнения testSelectByIdPerformance: 125569
 
     private static void testSelectPerformance() {
+        int id = 1;
+        int someString = 2;
+        int someNumber = 3;
+
         try (Connection connection = getConnection()){
             Date start = new Date();
             Statement statement = connection.createStatement();
 
             try (ResultSet resultSet = statement.executeQuery("SELECT * FROM TEST_SPEEED")){
                 while (resultSet.next()) {
-                    resultSet.getInt(1);
-                    resultSet.getString(2);
-                    resultSet.getInt(3);
+                    resultSet.getInt(id);
+                    resultSet.getString(someString);
+                    resultSet.getInt(someNumber);
                 }
             }
 
@@ -148,10 +161,10 @@ public class Solution {
         }
     }
 
+    //Время выполнения testSelectPerformance: 12730
+
     private static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(DB_URL, USER, PASS);
     }
-
-    //Время выполнения testSelectPerformance: 12730
 
 }
