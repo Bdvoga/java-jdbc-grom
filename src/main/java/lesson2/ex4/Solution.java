@@ -30,6 +30,10 @@ public class Solution {
 
     private static void changeDescription() throws SQLException {
         int lengthDescription = 100;
+        int id = 1;
+        int description = 3;
+        String split = "\\. ";
+
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS); Statement statement = connection.createStatement()) {
             connectToDb();
 
@@ -39,9 +43,9 @@ public class Solution {
 
             try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT2")){
                 while (resultSet.next()) {
-                    if (resultSet.getString(3) != null && resultSet.getString(3).length() > lengthDescription) {
-                        listId.add(resultSet.getInt(1));
-                        listDescription.add(resultSet.getString(3).split("\\. "));
+                    if (resultSet.getString(description) != null && resultSet.getString(description).length() > lengthDescription) {
+                        listId.add(resultSet.getInt(id));
+                        listDescription.add(resultSet.getString(description).split(split));
                     }
                 }
             }
