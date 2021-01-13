@@ -1,12 +1,10 @@
 package lesson4.ex1;
 import lesson3.ex1.Product;
-import lesson3.ex1.ProductDAO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class TransactionDemo {
@@ -25,16 +23,21 @@ public class TransactionDemo {
     }
 
     private void saveList(List<Product> products, Connection connection) throws SQLException {
+        int id = 1;
+        int name = 2;
+        int description = 3;
+        int price = 4;
+
         try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO PRODUCT2 VALUES (?, ?, ?, ?)")) {
 
             //авто коммит отлючен
             connection.setAutoCommit(false);
 
             for (Product product : products) {
-                preparedStatement.setLong(1, product.getId());
-                preparedStatement.setString(2, product.getName());
-                preparedStatement.setString(3, product.getDescription());
-                preparedStatement.setInt(4, product.getPrice());
+                preparedStatement.setLong(id, product.getId());
+                preparedStatement.setString(name, product.getName());
+                preparedStatement.setString(description, product.getDescription());
+                preparedStatement.setInt(price, product.getPrice());
 
                 int res = preparedStatement.executeUpdate();
                 System.out.println("save was finished with result " + res);
