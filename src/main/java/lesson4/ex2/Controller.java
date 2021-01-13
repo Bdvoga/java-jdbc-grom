@@ -22,8 +22,7 @@ public class Controller {
 
         try (Connection connection = storageDAO.getConnection()) {
             Statement statement = connection.createStatement();
-            String sqlUpdate = "UPDATE FILES SET STORAGE_ID = " + storage.getId() + " WHERE ID = " + file.getId();
-            statement.executeUpdate(sqlUpdate);
+            statement.executeUpdate("UPDATE FILES SET STORAGE_ID = " + storage.getId() + " WHERE ID = " + file.getId());
 
         } catch (SQLException e) {
             System.out.println("Something went wrong");
@@ -51,6 +50,8 @@ public class Controller {
         //Удаляем из хранилища, но в БД оставляем
         //есть ли файл в хранилище
 
+        int idDb = 1;
+
         storageDAO.ifHaveStorage(storage);
 
         if (fileDAO.findById(file.getId()) == null) {
@@ -61,7 +62,7 @@ public class Controller {
 
         try (Connection connection = storageDAO.getConnection()) {
             PreparedStatement ps = connection.prepareStatement("UPDATE FILES SET STORAGE_ID = null WHERE ID = ?");
-            ps.setLong(1, file.getId());
+            ps.setLong(idDb, file.getId());
             ps.executeUpdate();
 
         } catch (SQLException e) {
