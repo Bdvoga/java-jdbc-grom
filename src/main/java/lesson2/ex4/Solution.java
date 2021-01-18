@@ -33,28 +33,28 @@ public class Solution {
         int id = 1;
         int description = 3;
 
-
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS); Statement statement = connection.createStatement()) {
             connectToDb();
 
 //            String shortDescription = "";
 //            List<String> listDescription = new ArrayList<>();
-//            List<Integer> listId = new ArrayList<>();
+            List<Integer> listId = new ArrayList<>();
 
             try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT2 WHERE LENGTH(DESCRIPTION) > " + lengthDescription)){
                 while (resultSet.next()) {
-//                    listId.add(resultSet.getInt(id));
+                    listId.add(resultSet.getInt(id));
 //                    listDescription.add(resultSet.getString(description));
-                    resultSet.updateString(description, deleteLastSentence(resultSet.getString(description)));
-                    resultSet.updateRow();
+//                    resultSet.updateString(description, deleteLastSentence(resultSet.getString(description)));
+//                    resultSet.updateRow();
 
                 }
             }
 
-//            for (Integer el: listId) {
-//                statement.executeUpdate("UPDATE PRODUCT2 SET DESCRIPTION = " + "'" + shortDescription  + "'" + " WHERE ID = " + listId.get(el));
-//                shortDescription = "";
-//            }
+            for (Integer el: listId) {
+                ResultSet rs = statement.executeQuery("SELECT * FROM PRODUCT2 WHERE ID = " + el);
+                rs.next();
+                statement.executeUpdate("UPDATE PRODUCT2 SET DESCRIPTION = " + "'" + deleteLastSentence(rs.getString(description))  + "'" + " WHERE ID = " + el);
+            }
 
         } catch (SQLException e) {
             System.out.println("Something went wrong");
