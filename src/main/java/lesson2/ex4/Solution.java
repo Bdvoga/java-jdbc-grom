@@ -37,16 +37,15 @@ public class Solution {
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS); Statement statement = connection.createStatement()) {
             connectToDb();
 
-            String shortDescription = "";
-            List<String> listDescription = new ArrayList<>();
-            List<Integer> listId = new ArrayList<>();
-
+//            String shortDescription = "";
+//            List<String> listDescription = new ArrayList<>();
+//            List<Integer> listId = new ArrayList<>();
 
             try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT2 WHERE LENGTH(DESCRIPTION) > " + lengthDescription)){
                 while (resultSet.next()) {
 //                    listId.add(resultSet.getInt(id));
 //                    listDescription.add(resultSet.getString(description));
-                    resultSet.updateString(3, deleteLastSentence(resultSet.getString(description)));
+                    resultSet.updateString(description, deleteLastSentence(resultSet.getString(description)));
                     resultSet.updateRow();
 
                 }
