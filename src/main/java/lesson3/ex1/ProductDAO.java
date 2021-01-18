@@ -12,18 +12,13 @@ public class ProductDAO {
     private static final String PASS = "As172394";
 
     public Product save (Product product) {
-        int id = 1;
-        int name = 2;
-        int description = 3;
-        int price = 4;
-
         try (Connection connection = getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO PRODUCT2 VALUES (?, ?, ?, ?)");
 
-            preparedStatement.setLong(id, product.getId());
-            preparedStatement.setString(name, product.getName());
-            preparedStatement.setString(description, product.getDescription());
-            preparedStatement.setInt(price, product.getPrice());
+            preparedStatement.setLong(1, product.getId());
+            preparedStatement.setString(2, product.getName());
+            preparedStatement.setString(3, product.getDescription());
+            preparedStatement.setInt(4, product.getPrice());
 
             int res = preparedStatement.executeUpdate();
             System.out.println("save was finished with result " + res);
@@ -45,10 +40,10 @@ public class ProductDAO {
         try (Connection connection = getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE PRODUCT2 SET NAME = ?, DESCRIPTION = ?, PRICE = ? WHERE ID = ?");
 
-            preparedStatement.setLong(price, product.getId());
-            preparedStatement.setString(id, product.getName());
-            preparedStatement.setString(name, product.getDescription());
-            preparedStatement.setInt(description, product.getPrice());
+            preparedStatement.setString(1, product.getName());
+            preparedStatement.setString(2, product.getDescription());
+            preparedStatement.setInt(3, product.getPrice());
+            preparedStatement.setLong(4, product.getId());
 
             int res = preparedStatement.executeUpdate();
             System.out.println("update was finished with result " + res);
@@ -91,12 +86,10 @@ public class ProductDAO {
     }
 
     public void delete (long id) {
-        int idDb = 1;
-
         try (Connection connection = getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM PRODUCT2 WHERE ID = ?");
 
-            preparedStatement.setLong(idDb, id);
+            preparedStatement.setLong(1, id);
 
             int res = preparedStatement.executeUpdate();
             System.out.println("delete was finished with result " + res);

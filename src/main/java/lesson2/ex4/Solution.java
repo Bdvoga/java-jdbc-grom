@@ -29,43 +29,50 @@ public class Solution {
     }
 
     private static void changeDescription() throws SQLException {
-        int lengthDescription = 100;
+        int lengthDescription = 10;
         int id = 1;
         int description = 3;
-        String split = "\\. ";
+
 
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS); Statement statement = connection.createStatement()) {
             connectToDb();
 
             String shortDescription = "";
-            List<String[]> listDescription = new ArrayList<>();
+            List<String> listDescription = new ArrayList<>();
             List<Integer> listId = new ArrayList<>();
 
-            try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT2")){
+
+            try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT2 WHERE LENGTH(DESCRIPTION) > " + lengthDescription)){
                 while (resultSet.next()) {
-                    if (resultSet.getString(description) != null && resultSet.getString(description).length() > lengthDescription) {
-                        listId.add(resultSet.getInt(id));
-                        listDescription.add(resultSet.getString(description).split(split));
-                    }
+//                    listId.add(resultSet.getInt(id));
+//                    listDescription.add(resultSet.getString(description));
+                    resultSet.updateString(3, deleteLastSentence(resultSet.getString(description)));
+                    resultSet.updateRow();
+
                 }
             }
 
-            int count = 0;
-            for (String[] strings: listDescription) {
-
-                for (int i = 0; i < strings.length - 1; i++) {
-                    shortDescription = shortDescription + strings[i] + ". ";
-                }
-
-                statement.executeUpdate("UPDATE PRODUCT2 SET DESCRIPTION = " + "'" + shortDescription  + "'" + " WHERE ID = " + listId.get(count));
-                shortDescription = "";
-                count++;
-            }
+//            for (Integer el: listId) {
+//                statement.executeUpdate("UPDATE PRODUCT2 SET DESCRIPTION = " + "'" + shortDescription  + "'" + " WHERE ID = " + listId.get(el));
+//                shortDescription = "";
+//            }
 
         } catch (SQLException e) {
             System.out.println("Something went wrong");
             e.printStackTrace();
         }
+    }
+
+    private static String deleteLastSentence (String string) {
+        String shortDescription = "";
+        String split = "\\. ";
+        String[] strings = string.split(split);
+
+        for (int i = 0; i < strings.length - 1; i++) {
+            shortDescription = shortDescription + strings[i] + ". ";
+        }
+
+        return shortDescription;
     }
 
     public static void connectToDb() {
