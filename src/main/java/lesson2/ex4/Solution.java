@@ -29,33 +29,28 @@ public class Solution {
     }
 
     private static void changeDescription() throws SQLException {
-        int lengthDescription = 10;
         int id = 1;
         int description = 3;
 
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS); Statement statement = connection.createStatement()) {
             connectToDb();
 
-//            String shortDescription = "";
-//            List<String> listDescription = new ArrayList<>();
             List<Integer> listId = new ArrayList<>();
+            List<String> listDescription = new ArrayList<>();
 
-            try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT2 WHERE LENGTH(DESCRIPTION) > " + lengthDescription)){
+            try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT2 WHERE LENGTH(DESCRIPTION) > 10")){
                 while (resultSet.next()) {
                     listId.add(resultSet.getInt(id));
-//                    listDescription.add(resultSet.getString(description));
-//                    resultSet.updateString(description, deleteLastSentence(resultSet.getString(description)));
-//                    resultSet.updateRow();
-
+                    listDescription.add(resultSet.getString(description));
                 }
             }
 
+            int count = 0;
             for (Integer el: listId) {
-                ResultSet rs = statement.executeQuery("SELECT * FROM PRODUCT2 WHERE ID = " + el);
-                rs.next();
-                statement.executeUpdate("UPDATE PRODUCT2 SET DESCRIPTION = " + "'" + deleteLastSentence(rs.getString(description))  + "'" + " WHERE ID = " + el);
+                statement.executeUpdate("UPDATE PRODUCT2 SET DESCRIPTION = " + "'" +
+                        deleteLastSentence(listDescription.get(count))  + "'" + " WHERE ID = " + el);
+                count++;
             }
-
         } catch (SQLException e) {
             System.out.println("Something went wrong");
             e.printStackTrace();

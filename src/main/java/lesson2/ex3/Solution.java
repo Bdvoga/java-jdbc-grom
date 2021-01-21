@@ -1,7 +1,6 @@
 package lesson2.ex3;
 
 import java.sql.*;
-import java.util.ArrayList;
 
 public class Solution {
     private static final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
@@ -22,8 +21,8 @@ public class Solution {
 
             try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT2")){
                 while (resultSet.next()) {
-                    System.out.println(resultSet.getInt(1) + " " + resultSet.getString(2) +
-                            " " +resultSet.getString(3) + " " + resultSet.getInt(4));
+                    System.out.println(resultSet.getInt("id") + " " + resultSet.getString("name") +
+                            " " +resultSet.getString("description") + " " + resultSet.getInt("price"));
                 }
             }
 
@@ -39,8 +38,8 @@ public class Solution {
 
             try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT2 WHERE PRICE <= 100")){
                 while (resultSet.next()) {
-                    System.out.println(resultSet.getInt(1) + " " + resultSet.getString(2) +
-                            " " +resultSet.getString(3) + " " + resultSet.getInt(4));
+                    System.out.println(resultSet.getInt("id") + " " + resultSet.getString("name") +
+                            " " +resultSet.getString("description") + " " + resultSet.getInt("price"));
                 }
             }
 
@@ -57,8 +56,8 @@ public class Solution {
             try (ResultSet resultSet = statement.executeQuery("SELECT * FROM PRODUCT2")){
                 while (resultSet.next()) {
                     if (resultSet.getString(3) != null && resultSet.getString(3).length() > 50) {
-                        System.out.println(resultSet.getInt(1) + " " + resultSet.getString(2) +
-                                " " +resultSet.getString(3) + " " + resultSet.getInt(4));
+                        System.out.println(resultSet.getInt("id") + " " + resultSet.getString("name") +
+                                " " +resultSet.getString("description") + " " + resultSet.getInt("price"));
                     }
                 }
             }
