@@ -9,7 +9,7 @@
         <property name="hibernate.connection.username">main</property>
         <property name="hibernate.connection.password">As172394</property>
 
-<!--        <mapping class="lesson5.ex1.Product"></mapping>-->
-        <mapping class="lesson5.ex2.Product"></mapping>
+<!--        <mapping class="hibernate.lesson1.ex1.Product"></mapping>-->
+        <mapping class="hibernate.lesson2.ex1.Product"></mapping>
     </session-factory>
 </hibernate-configuration>
