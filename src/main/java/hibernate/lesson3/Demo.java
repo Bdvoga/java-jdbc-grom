@@ -12,7 +12,7 @@ public class Demo {
         hotel.setCity("Kyiv");
         hotel.setStreet("str1");
 
-        System.out.println(hotelDAO.save(hotel));
+//        System.out.println(hotelDAO.save(hotel));
 
 //        hotelDAO.delete(5);
 
