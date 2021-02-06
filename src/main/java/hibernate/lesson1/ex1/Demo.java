@@ -17,6 +17,7 @@ public class Demo {
 
     private static void save(Product product) {
         Session session = new HibernateUtils().createSessionFactory().openSession();
+
         session.getTransaction().begin(); //начинаем транзакцию
 
         session.save(product);
