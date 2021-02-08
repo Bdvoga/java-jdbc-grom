@@ -12,7 +12,6 @@ public class Room {
     private int breakfastIncluded;
     private int petsAllowed;
     private Date dateAvailableFrom;
-
     private Hotel hotel;
 
     @Id
@@ -48,8 +47,8 @@ public class Room {
         return dateAvailableFrom;
     }
 
-    @OneToOne(optional=false)
-    @JoinColumn(name = "HOTEL_ID", unique = true, nullable = false, updatable = false)
+    @OneToOne() //fetch = FetchType.LAZY
+    @JoinColumn(name = "HOTEL_ID") //, referencedColumnName = "HOTEL_ID"
     public Hotel getHotel() {
         return hotel;
     }

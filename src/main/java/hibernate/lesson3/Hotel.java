@@ -11,8 +11,6 @@ public class Hotel {
     private String city;
     private String street;
 
-    private Room room;
-
     @Id
     @SequenceGenerator(name = "H_SEQ", sequenceName = "HOTEL_SEQ", allocationSize = 1) // создаем в БД (SQL developer)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "H_SEQ")
@@ -39,15 +37,6 @@ public class Hotel {
     @Column(name = "STREET")
     public String getStreet() {
         return street;
-    }
-
-    @OneToOne(optional=false, mappedBy="HOTEL")
-    public Room getRoom() {
-        return room;
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
     }
 
     public void setId(long id) {
@@ -81,4 +70,3 @@ public class Hotel {
                 '}';
     }
 }
-
