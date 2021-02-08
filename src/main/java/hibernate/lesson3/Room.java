@@ -13,7 +13,7 @@ public class Room {
     private int petsAllowed;
     private Date dateAvailableFrom;
 
-    @OneToOne
+    @OneToOne(optional=false)
     @JoinColumn(name = "HOTEL_ID")
     private Hotel hotel;
 
