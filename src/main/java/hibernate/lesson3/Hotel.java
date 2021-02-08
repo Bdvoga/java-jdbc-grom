@@ -14,12 +14,12 @@ public class Hotel {
     @Id
     @SequenceGenerator(name = "H_SEQ", sequenceName = "HOTEL_SEQ", allocationSize = 1) // создаем в БД (SQL developer)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "H_SEQ")
-    @Column(name = "HOTEL_ID")
+    @Column(name = "ID")
     public long getId() {
         return id;
     }
 
-    @Column(name = "NAME")
+    @Column(name = "HOTEL_NAME")
     public String getName() {
         return name;
     }
