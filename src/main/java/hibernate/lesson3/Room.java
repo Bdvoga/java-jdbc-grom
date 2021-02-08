@@ -13,8 +13,6 @@ public class Room {
     private int petsAllowed;
     private Date dateAvailableFrom;
 
-    @OneToOne(optional=false)
-    @JoinColumn(name = "HOTEL_ID")
     private Hotel hotel;
 
     @Id
@@ -50,16 +48,15 @@ public class Room {
         return dateAvailableFrom;
     }
 
-
-//    public Hotel getHotel() {
-//        return hotel;
-//    }
+    @OneToOne(optional=false)
+    @JoinColumn(name = "HOTEL_ID", unique = true, nullable = false, updatable = false)
+    public Hotel getHotel() {
+        return hotel;
+    }
 
     public void setHotel(Hotel hotel) {
         this.hotel = hotel;
     }
-
-
 
     public void setRoomId(long roomId) {
         this.roomId = roomId;
