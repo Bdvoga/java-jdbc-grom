@@ -47,8 +47,8 @@ public class Room {
         return dateAvailableFrom;
     }
 
-    @OneToOne() //fetch = FetchType.LAZY
-    @JoinColumn(name = "HOTEL_ID") //, referencedColumnName = "HOTEL_ID"
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "HOTEL_ID", referencedColumnName = "ID")
     public Hotel getHotel() {
         return hotel;
     }
