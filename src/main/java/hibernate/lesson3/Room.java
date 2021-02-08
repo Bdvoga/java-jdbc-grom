@@ -47,7 +47,13 @@ public class Room {
         return dateAvailableFrom;
     }
 
-    @OneToOne(fetch = FetchType.LAZY)
+//    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "ID", referencedColumnName = "ID")
+//    public Hotel getHotel() {
+//        return hotel;
+//    }
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "HOTEL_ID", referencedColumnName = "ID")
     public Hotel getHotel() {
         return hotel;

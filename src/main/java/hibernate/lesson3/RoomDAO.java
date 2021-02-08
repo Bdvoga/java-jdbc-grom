@@ -32,6 +32,18 @@ public class RoomDAO {
         return null;
     }
 
+    public Hotel findById(long id) {
+        Session session = createSessionFactory().openSession();
+
+        Hotel hotel = (Hotel) session.createSQLQuery("SELECT * FROM HOTEL WHERE id = " + id)
+                .addEntity(Hotel.class)
+                .getSingleResult();
+
+        session.close();
+
+        return hotel;
+    }
+
     public SessionFactory createSessionFactory() {
         if (sessionFactory == null) {
             sessionFactory = new Configuration().configure().buildSessionFactory();

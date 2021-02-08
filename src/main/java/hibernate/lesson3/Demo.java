@@ -16,12 +16,12 @@ public class Demo {
 
 //        hotelDAO.delete(5);
 
-        Hotel hotel1 = new Hotel();
-        hotel1.setId(3);
-        hotel1.setName("Volna");
-        hotel1.setCountry("Ukraine");
-        hotel1.setCity("Odesa");
-        hotel1.setStreet("str2");
+//        Hotel hotel1 = new Hotel();
+//        hotel1.setId(3);
+//        hotel1.setName("Volna");
+//        hotel1.setCountry("Ukraine");
+//        hotel1.setCity("Odesa");
+//        hotel1.setStreet("str2");
 
 //        System.out.println(hotelDAO.update(hotel1));
 
@@ -32,7 +32,7 @@ public class Demo {
         room.setPrice(50);
         room.setBreakfastIncluded(1);
         room.setPetsAllowed(0);
-        room.setHotel(hotel);
+        room.setHotel(roomDAO.findById(8));
 
         roomDAO.save(room);
 
