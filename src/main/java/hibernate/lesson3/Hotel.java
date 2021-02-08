@@ -5,6 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "HOTEL")
 public class Hotel {
+    @OneToOne(optional=false, mappedBy="HOTEL")
     private long id;
     private String name;
     private String country;

@@ -14,7 +14,7 @@ public class Room {
     private Date dateAvailableFrom;
 
     @OneToOne
-    @JoinColumn(name = "HOTEL")
+    @JoinColumn(name = "HOTEL_ID")
     private Hotel hotel;
 
     @Id
@@ -50,9 +50,16 @@ public class Room {
         return dateAvailableFrom;
     }
 
+
 //    public Hotel getHotel() {
 //        return hotel;
 //    }
+
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
+    }
+
+
 
     public void setRoomId(long roomId) {
         this.roomId = roomId;
@@ -78,7 +85,5 @@ public class Room {
         this.dateAvailableFrom = dateAvailableFrom;
     }
 
-    public void setHotel(Hotel hotel) {
-        this.hotel = hotel;
-    }
+
 }
