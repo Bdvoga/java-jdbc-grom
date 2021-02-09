@@ -18,7 +18,7 @@ public class Room {
     @SequenceGenerator(name = "R_SEQ", sequenceName = "ROOM_SEQ", allocationSize = 1) // создаем в БД (SQL developer)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "R_SEQ")
     @Column(name = "ID")
-    public long getRoomId() {
+    public long getId() {
         return id;
     }
 
@@ -63,8 +63,8 @@ public class Room {
         this.hotel = hotel;
     }
 
-    public void setRoomId(long roomId) {
-        this.id = roomId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public void setNumberOfGuests(int numberOfGuests) {
@@ -87,5 +87,16 @@ public class Room {
         this.dateAvailableFrom = dateAvailableFrom;
     }
 
-
+    @Override
+    public String toString() {
+        return "Room{" +
+                "id=" + id +
+                ", numberOfGuests=" + numberOfGuests +
+                ", price=" + price +
+                ", breakfastIncluded=" + breakfastIncluded +
+                ", petsAllowed=" + petsAllowed +
+                ", dateAvailableFrom=" + dateAvailableFrom +
+                ", hotel=" + hotel +
+                '}';
+    }
 }

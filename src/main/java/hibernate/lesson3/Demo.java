@@ -1,5 +1,7 @@
 package hibernate.lesson3;
 
+import java.util.Date;
+
 public class Demo {
 
     public static void main(String[] args) {
@@ -25,18 +27,31 @@ public class Demo {
 
 //        System.out.println(hotelDAO.update(hotel1));
 
-//        System.out.println(hotelDAO.findById(2));
-
         Room room = new Room();
         room.setNumberOfGuests(3);
         room.setPrice(50);
         room.setBreakfastIncluded(1);
         room.setPetsAllowed(0);
-        room.setHotel(roomDAO.findById(8));
+        room.setHotel(hotelDAO.findById(8));
 
-        roomDAO.save(room);
+//        System.out.println(hotelDAO.findById(8));
 
+//        roomDAO.save(room);
 
+//        System.out.println(roomDAO.findById(25));
+
+//        roomDAO.delete(26);
+
+        Room room1 = new Room();
+        room1.setId(27);
+        room1.setNumberOfGuests(5);
+        room1.setPrice(500);
+        room1.setBreakfastIncluded(1);
+        room1.setPetsAllowed(1);
+        room1.setDateAvailableFrom(new Date());
+        room1.setHotel(hotelDAO.findById(9));
+
+        System.out.println(roomDAO.update(room1));
     }
 
 }

@@ -10,24 +10,12 @@ public class HotelDAO {
     private SessionFactory sessionFactory;
 
     public Hotel findById(long id) {
-        Transaction tr = null;
-        try (Session session = createSessionFactory().openSession()) {
-            tr = session.getTransaction();
-            tr.begin();
+        Session session = createSessionFactory().openSession();
 
-            return session.get(Hotel.class, id);
+        Hotel hotel = session.get(Hotel.class, id);
+        session.close();
 
-
-        } catch (HibernateException e) {
-            System.err.println("Find is failed");
-            System.err.println(e.getMessage());
-
-            if (tr != null) {
-                tr.rollback();
-            }
-        }
-
-        return null;
+        return hotel;
     }
 
     public Hotel update(Hotel hotel) {
