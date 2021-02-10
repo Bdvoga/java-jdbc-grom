@@ -1,0 +1,22 @@
+CREATE TABLE ROOM (
+    ID NUMBER,
+    CONSTRAINT ROOM_ID_PK PRIMARY KEY (ID),
+    NUMBER_OF_GUESTS NUMBER NOT NULL,
+    PRICE NUMBER NOT NULL,
+    BREAKFAST_INCLUDED NUMBER CHECK(BREAKFAST_INCLUDED = 0 OR BREAKFAST_INCLUDED = 1),
+    PETS_ALLOWED NUMBER CHECK(PETS_ALLOWED = 0 OR PETS_ALLOWED = 1),
+    DATE_AVAILABLE_FROM DATE,
+    -- @OneToMane
+    HOTEL_ID NUMBER,
+    CONSTRAINT HOTEL_ID_FK FOREIGN KEY (HOTEL_ID) REFERENCES HOTEL(ID)
+);
+
+CREATE SEQUENCE ROOM_SEQ MINVALUE 1 MAXVALUE 100  START WITH 1 INCREMENT BY 1;
+
+    --private Long id;
+    --private Integer numberOfGuests;
+    --private Double price;
+    --private Boolean breakfastIncluded;
+    --private Boolean petsAllowed;
+    --private Date dateAvailableFrom;
+    --private Hotel hotel;

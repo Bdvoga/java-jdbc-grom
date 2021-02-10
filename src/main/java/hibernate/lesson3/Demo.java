@@ -51,7 +51,9 @@ public class Demo {
         room1.setDateAvailableFrom(new Date());
         room1.setHotel(hotelDAO.findById(9));
 
-        System.out.println(roomDAO.update(room1));
+//        System.out.println(roomDAO.update(room1));
+
+        System.out.println(hotelDAO.findById(1));
     }
 
 }
