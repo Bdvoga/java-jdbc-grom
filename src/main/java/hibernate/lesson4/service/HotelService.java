@@ -1,6 +1,6 @@
 package hibernate.lesson4.service;
 
-import hibernate.lesson4.Repository.HotelRepository;
+import hibernate.lesson4.repository.HotelRepository;
 import hibernate.lesson4.model.Hotel;
 
 import java.util.ArrayList;

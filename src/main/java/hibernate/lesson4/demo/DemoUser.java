@@ -1,8 +1,7 @@
-package hibernate.lesson4.Demo;
+package hibernate.lesson4.demo;
 
-import hibernate.lesson4.Repository.UserRepository;
+import hibernate.lesson4.repository.UserRepository;
 import hibernate.lesson4.controller.UserController;
-import hibernate.lesson4.model.Seance;
 import hibernate.lesson4.model.User;
 import hibernate.lesson4.model.UserType;
 

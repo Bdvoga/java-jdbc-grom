@@ -1,6 +1,6 @@
 package hibernate.lesson4.model;
 
-import hibernate.lesson4.Repository.IdEntity;
+import hibernate.lesson4.repository.IdEntity;
 
 import javax.persistence.*;
 import java.util.List;

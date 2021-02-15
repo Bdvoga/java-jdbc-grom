@@ -1,17 +1,13 @@
-package hibernate.lesson4.Demo;
+package hibernate.lesson4.demo;
 
-import hibernate.lesson4.Repository.GeneralRepository;
-import hibernate.lesson4.Repository.HotelRepository;
-import hibernate.lesson4.Repository.RoomRepository;
-import hibernate.lesson4.Repository.UserRepository;
+import hibernate.lesson4.repository.HotelRepository;
+import hibernate.lesson4.repository.RoomRepository;
 import hibernate.lesson4.controller.RoomController;
 import hibernate.lesson4.controller.UserController;
 import hibernate.lesson4.model.Filter;
 import hibernate.lesson4.model.Hotel;
 import hibernate.lesson4.model.Room;
-import hibernate.lesson4.model.Seance;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 

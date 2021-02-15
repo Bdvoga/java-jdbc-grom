@@ -1,4 +1,4 @@
-package hibernate.lesson4.Repository;
+package hibernate.lesson4.repository;
 
 import hibernate.lesson4.model.Hotel;
 import org.hibernate.HibernateException;

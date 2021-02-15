@@ -1,9 +1,9 @@
 package hibernate.lesson4.service;
 
-import hibernate.lesson4.Repository.GeneralRepository;
-import hibernate.lesson4.Repository.OrderRepository;
-import hibernate.lesson4.Repository.RoomRepository;
-import hibernate.lesson4.Repository.UserRepository;
+import hibernate.lesson4.repository.GeneralRepository;
+import hibernate.lesson4.repository.OrderRepository;
+import hibernate.lesson4.repository.RoomRepository;
+import hibernate.lesson4.repository.UserRepository;
 import hibernate.lesson4.model.Order;
 
 import java.util.Date;

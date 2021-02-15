@@ -1,6 +1,6 @@
 package hibernate.lesson4.service;
 
-import hibernate.lesson4.Repository.UserRepository;
+import hibernate.lesson4.repository.UserRepository;
 import hibernate.lesson4.model.User;
 
 public class UserService {

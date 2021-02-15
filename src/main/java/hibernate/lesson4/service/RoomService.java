@@ -1,10 +1,8 @@
 package hibernate.lesson4.service;
 
-import hibernate.lesson4.Repository.RoomRepository;
+import hibernate.lesson4.repository.RoomRepository;
 import hibernate.lesson4.model.Filter;
-import hibernate.lesson4.model.Seance;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RoomService {

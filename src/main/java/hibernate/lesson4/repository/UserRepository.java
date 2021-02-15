@@ -1,4 +1,4 @@
-package hibernate.lesson4.Repository;
+package hibernate.lesson4.repository;
 
 import hibernate.lesson4.model.Seance;
 import hibernate.lesson4.model.User;

@@ -1,4 +1,4 @@
-package hibernate.lesson4.Repository;
+package hibernate.lesson4.repository;
 
 public abstract class IdEntity {
 

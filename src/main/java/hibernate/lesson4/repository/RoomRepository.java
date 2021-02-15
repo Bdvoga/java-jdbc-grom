@@ -1,15 +1,12 @@
-package hibernate.lesson4.Repository;
+package hibernate.lesson4.repository;
 
 import hibernate.lesson4.model.Filter;
-import hibernate.lesson4.model.Hotel;
 import hibernate.lesson4.model.Room;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class RoomRepository extends GeneralRepository<Room> {

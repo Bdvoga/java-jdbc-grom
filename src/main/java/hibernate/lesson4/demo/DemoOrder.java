@@ -1,8 +1,8 @@
-package hibernate.lesson4.Demo;
+package hibernate.lesson4.demo;
 
-import hibernate.lesson4.Repository.OrderRepository;
-import hibernate.lesson4.Repository.RoomRepository;
-import hibernate.lesson4.Repository.UserRepository;
+import hibernate.lesson4.repository.OrderRepository;
+import hibernate.lesson4.repository.RoomRepository;
+import hibernate.lesson4.repository.UserRepository;
 import hibernate.lesson4.controller.OrderController;
 import hibernate.lesson4.controller.UserController;
 import hibernate.lesson4.model.Order;

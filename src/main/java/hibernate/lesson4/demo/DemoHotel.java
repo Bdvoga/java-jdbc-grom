@@ -1,6 +1,6 @@
-package hibernate.lesson4.Demo;
+package hibernate.lesson4.demo;
 
-import hibernate.lesson4.Repository.HotelRepository;
+import hibernate.lesson4.repository.HotelRepository;
 import hibernate.lesson4.controller.HotelController;
 import hibernate.lesson4.controller.UserController;
 import hibernate.lesson4.model.Hotel;
