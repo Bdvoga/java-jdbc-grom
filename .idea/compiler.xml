@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="java-jdbc-grom" />
         <module name="jdbc-Hibernate-grom" />
       </profile>
     </annotationProcessing>

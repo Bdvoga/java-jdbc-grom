@@ -1,9 +1,13 @@
 package hibernate.lesson4.model;
 
+import hibernate.lesson4.Repository.IdEntity;
+
 import javax.persistence.*;
 import java.util.Date;
 
-public class Room {
+@Entity
+@Table(name = "ROOM")
+public class Room extends IdEntity {
     private Long id;
     private Integer numberOfGuests;
     private Double price;
@@ -70,13 +74,12 @@ public class Room {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "HOTEL_ID", nullable=false)
+    @JoinColumn(name = "HOTEL_ID")
     public Hotel getHotel() {
         return hotel;
     }
 
     public void setHotel(Hotel hotel) {
-        hotel.getRooms().add(this);
         this.hotel = hotel;
     }
 
@@ -89,7 +92,8 @@ public class Room {
                 ", breakfastIncluded=" + breakfastIncluded +
                 ", petsAllowed=" + petsAllowed +
                 ", dateAvailableFrom=" + dateAvailableFrom +
-                ", hotel=" + hotel +
+//                ", hotel=" + hotel +
                 '}';
     }
+
 }

@@ -1,22 +1,18 @@
 package hibernate.lesson4.model;
 
+import hibernate.lesson4.Repository.IdEntity;
+
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "HOTEL")
-public class Hotel {
+public class Hotel extends IdEntity {
     private Long id;
     private String name;
     private String country;
     private String city;
     private String street;
-
-    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, orphanRemoval = true)
-    //один Hotel связан со множеством Room
-    //mappedBy = "hotel" - указывает на поле private Hotel hotel в классе Room
-    //orphanRemoval = true - удаляем "сирот" - если удалим Отель, будут удалены все связанные с ним Комнаты
     private List<Room> rooms;
 
     @Id
@@ -27,9 +23,9 @@ public class Hotel {
         return id;
     }
 
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     @Column(name = "HOTEL_NAME")
     public String getName() {
@@ -67,9 +63,16 @@ public class Hotel {
         this.street = street;
     }
 
-//    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, orphanRemoval = true)
+    //один Hotel связан со множеством Room
+    //mappedBy = "hotel" - указывает на поле private Hotel hotel в классе Room
+    //orphanRemoval = true - удаляем "сирот" - если удалим Отель, будут удалены все связанные с ним Комнаты
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<Room> getRooms() {
-        return this.rooms;
+        return rooms;
+    }
+
+    public void setRooms(List<Room> rooms) {
+        this.rooms = rooms;
     }
 
     @Override
@@ -80,7 +83,7 @@ public class Hotel {
                 ", country='" + country + '\'' +
                 ", city='" + city + '\'' +
                 ", street='" + street + '\'' +
-                ", rooms=" + rooms +
+//                ", rooms=" + rooms +
                 '}';
     }
 }

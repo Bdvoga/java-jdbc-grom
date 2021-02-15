@@ -12,11 +12,3 @@ CREATE TABLE ROOM (
 );
 
 CREATE SEQUENCE ROOM_SEQ MINVALUE 1 MAXVALUE 100  START WITH 1 INCREMENT BY 1;
-
-    --private Long id;
-    --private Integer numberOfGuests;
-    --private Double price;
-    --private Boolean breakfastIncluded;
-    --private Boolean petsAllowed;
-    --private Date dateAvailableFrom;
-    --private Hotel hotel;
